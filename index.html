@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Scientist Toolbox</title>
+  <meta name="description" content="A GitHub Pages-ready encyclopedia of modern AI scientist tools: pretraining, fine-tuning, alignment, quantization, evaluation, and open training references." />
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #11172c;
+      --panel-2: #161f3d;
+      --text: #e8eefc;
+      --muted: #a9b5d6;
+      --accent: #7aa2ff;
+      --accent-2: #8ef0d0;
+      --line: rgba(255,255,255,0.08);
+      --chip: #1c274b;
+      --shadow: 0 16px 40px rgba(0,0,0,0.28);
+      --radius: 18px;
+      --max: 1240px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(122,162,255,0.12), transparent 28%),
+        radial-gradient(circle at top left, rgba(142,240,208,0.08), transparent 26%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { width: min(var(--max), calc(100% - 32px)); margin: 0 auto; }
+    .hero {
+      padding: 46px 0 26px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(12px);
+      z-index: 10;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: end;
+    }
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+    .subtitle {
+      margin: 14px 0 0;
+      max-width: 800px;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+    .hero-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px 18px 16px;
+      box-shadow: var(--shadow);
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .stat {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .stat strong {
+      display: block;
+      font-size: 1.25rem;
+      margin-bottom: 4px;
+    }
+    .controls {
+      padding: 24px 0 10px;
+    }
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .searchbox, .selectbox {
+      width: 100%;
+      background: var(--panel);
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 0.98rem;
+      outline: none;
+    }
+    .searchbox:focus, .selectbox:focus {
+      border-color: rgba(122,162,255,0.65);
+      box-shadow: 0 0 0 4px rgba(122,162,255,0.14);
+    }
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .chip {
+      border: 1px solid var(--line);
+      background: var(--chip);
+      color: var(--text);
+      padding: 9px 12px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .chip.active {
+      background: linear-gradient(180deg, rgba(122,162,255,0.22), rgba(122,162,255,0.11));
+      border-color: rgba(122,162,255,0.55);
+    }
+    .section {
+      padding: 20px 0 6px;
+    }
+    .section h2 {
+      margin: 0 0 10px;
+      font-size: 1.4rem;
+      letter-spacing: -0.02em;
+    }
+    .section p {
+      margin: 0 0 14px;
+      color: var(--muted);
+    }
+    .quick-grid, .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .mini-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .mini-card h3 {
+      margin: 0 0 6px;
+      font-size: 1rem;
+    }
+    .mini-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      padding: 18px 0 60px;
+    }
+    .card {
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      min-height: 310px;
+    }
+    .cat {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-2);
+      margin-bottom: 10px;
+    }
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 1.18rem;
+      line-height: 1.2;
+    }
+    .card p {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .small-label {
+      color: #d6def9;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .taglist {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 14px;
+    }
+    .tag {
+      font-size: 0.78rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 9px;
+      color: #d6def9;
+    }
+    .links {
+      margin-top: auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 0 12px;
+      border-radius: 10px;
+      background: rgba(122,162,255,0.14);
+      border: 1px solid rgba(122,162,255,0.35);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .link-btn.secondary {
+      background: rgba(255,255,255,0.04);
+      border-color: var(--line);
+    }
+    .muted {
+      color: var(--muted);
+    }
+    .footer {
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      padding: 22px 0 60px;
+      font-size: 0.94rem;
+    }
+    .count {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    @media (max-width: 1050px) {
+      .hero-grid, .toolbar, .grid, .quick-grid, .tech-grid {
+        grid-template-columns: 1fr;
+      }
+      .stats {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    @media (max-width: 700px) {
+      .wrap { width: min(var(--max), calc(100% - 22px)); }
+      .stats {
+        grid-template-columns: 1fr;
+      }
+      .hero {
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">AI Scientist Toolbox · GitHub Pages Ready</div>
+        <h1>Pretraining, fine-tuning, alignment, quantization, evaluation.</h1>
+        <p class="subtitle">
+          A curated encyclopedia of modern open tooling for people who build, adapt, compress, and evaluate language models.
+          Inspired by the structure of mlabonne’s LLM Course, but focused on the practical tool stack you would actually reach for.
+        </p>
+      </div>
+      <aside class="hero-card">
+        <div class="stats">
+          <div class="stat">
+            <strong>34</strong>
+            <span class="muted">curated tools</span>
+          </div>
+          <div class="stat">
+            <strong>13</strong>
+            <span class="muted">categories</span>
+          </div>
+          <div class="stat">
+            <strong>2026</strong>
+            <span class="muted">current reference pass</span>
+          </div>
+        </div>
+        <p style="margin:14px 0 0; color: var(--muted); font-size: 0.95rem;">
+          Use the search bar for a specific method such as <em>QLoRA</em>, <em>DPO</em>, <em>AWQ</em>, <em>Megatron</em>, or <em>GGUF</em>.
+        </p>
+      </aside>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="section">
+      <h2>Technique quick map</h2>
+      <div class="tech-grid">
+        <div class="mini-card"><h3>Full fine-tuning</h3><p>Best when you need maximal adaptation and have the compute budget.</p></div><div class="mini-card"><h3>LoRA / PEFT</h3><p>Default choice for most domain adaptation jobs.</p></div><div class="mini-card"><h3>QLoRA</h3><p>Use when VRAM is limited and you still need useful specialization.</p></div><div class="mini-card"><h3>DPO / ORPO / KTO</h3><p>Preference alignment without the full complexity of PPO pipelines.</p></div><div class="mini-card"><h3>GRPO / RLHF</h3><p>Use when verifiable or reward-based improvement matters more than plain imitation.</p></div><div class="mini-card"><h3>GPTQ / AWQ / HQQ / GGUF</h3><p>Use after training to compress for cheaper or local inference.</p></div><div class="mini-card"><h3>Model merging</h3><p>Blend specialist checkpoints when you want a cheap experimental alternative to more training.</p></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Suggested stacks</h2>
+      <p>Fast ways to compose tools instead of treating them like isolated islands.</p>
+      <div class="quick-grid">
+        <div class="mini-card"><h3>Small GPU / laptop lab</h3><p>Unsloth + PEFT + bitsandbytes + TRL + llama.cpp</p></div><div class="mini-card"><h3>Fast SFT baseline</h3><p>TRL or torchtune + PEFT</p></div><div class="mini-card"><h3>Config-first experimentation</h3><p>Axolotl or LlamaFactory</p></div><div class="mini-card"><h3>Large-scale pretraining</h3><p>Megatron-Core + DeepSpeed/FSDP + Transformer Engine + NeMo Curator/DataTrove</p></div><div class="mini-card"><h3>Preference optimization</h3><p>TRL / Unsloth for simple runs, OpenRLHF / veRL / NeMo-Aligner for scale</p></div><div class="mini-card"><h3>Quantized deployment</h3><p>GPTQ / AWQ / HQQ / GGUF + vLLM or llama.cpp</p></div><div class="mini-card"><h3>Evaluation pack</h3><p>lm-evaluation-harness + OpenCompass + MLflow</p></div><div class="mini-card"><h3>Checkpoint conversion</h3><p>Megatron Bridge</p></div>
+      </div>
+    </section>
+
+    <section class="controls">
+      <div class="toolbar">
+        <input id="search" class="searchbox" type="text" placeholder="Search tools, methods, tags, or use-cases..." />
+        <select id="category" class="selectbox">
+          <option value="all">All categories</option>
+          <option value="Alignment &amp; RLHF">Alignment &amp; RLHF</option><option value="Data Curation">Data Curation</option><option value="Evaluation">Evaluation</option><option value="Fine-tuning &amp; Post-training">Fine-tuning &amp; Post-training</option><option value="Interop &amp; Conversion">Interop &amp; Conversion</option><option value="Kernels &amp; Acceleration">Kernels &amp; Acceleration</option><option value="Learning &amp; Recipes">Learning &amp; Recipes</option><option value="Learning &amp; Roadmaps">Learning &amp; Roadmaps</option><option value="Model Merging">Model Merging</option><option value="Open Training Recipes">Open Training Recipes</option><option value="Pretraining at Scale">Pretraining at Scale</option><option value="Quantization &amp; Compression">Quantization &amp; Compression</option><option value="Serving for Research Loops">Serving for Research Loops</option>
+        </select>
+      </div>
+      <div id="chips" class="chip-row"></div>
+      <div id="count" class="count"></div>
+    </section>
+
+    <section id="cards" class="grid"></section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      This page is intentionally biased toward official docs, canonical repos, and widely used open tools.
+      It is broad, not mathematically exhaustive. Add or swap cards as the landscape shifts.
+    </div>
+  </footer>
+
+  <script>
+    const tools = [{"name": "The LLM Course", "category": "Learning & Roadmaps", "tags": ["course", "maps", "reference", "scientist", "engineer"], "why": "A high-signal roadmap and curated entry point for LLM fundamentals, scientist workflows, and engineer workflows.", "bestfor": "Orienting a team, building a syllabus, or finding canonical notebooks and reading order.", "links": [["GitHub", "https://github.com/mlabonne/llm-course"]]}, {"name": "Alignment Handbook", "category": "Learning & Recipes", "tags": ["alignment", "recipes", "datasets", "dpo", "sft"], "why": "Open training recipes, configs, and datasets for SFT and preference optimization workflows.", "bestfor": "Reproducible post-training baselines and alignment experiments.", "links": [["GitHub", "https://github.com/huggingface/alignment-handbook"], ["Hub", "https://huggingface.co/alignment-handbook"]]}, {"name": "NeMo Curator", "category": "Data Curation", "tags": ["data", "filtering", "dedup", "synthetic data", "pretraining"], "why": "Scalable curation platform for text, image, video, and audio; strong choice when data cleaning is the bottleneck.", "bestfor": "Large-scale filtering, formatting, deduplication, decontamination, and synthetic data generation.", "links": [["Docs", "https://docs.nvidia.com/nemo/curator/latest/"]]}, {"name": "DataTrove", "category": "Data Curation", "tags": ["data", "dedup", "filtering", "slurm", "huggingface"], "why": "Platform-agnostic pipelines for extraction, filtering, and deduplication at very large scale.", "bestfor": "Pretraining data preparation when you want composable Python blocks instead of ad hoc scripts.", "links": [["GitHub", "https://github.com/huggingface/datatrove"]]}, {"name": "Megatron-Core", "category": "Pretraining at Scale", "tags": ["pretraining", "distributed", "moe", "fp8", "nvidia"], "why": "GPU-optimized building blocks for very large-scale training with advanced parallelism strategies.", "bestfor": "Research labs and infra teams training or customizing models across many GPUs.", "links": [["Docs", "https://docs.nvidia.com/megatron-core/index.html"], ["GitHub", "https://github.com/NVIDIA/Megatron-LM"]]}, {"name": "DeepSpeed", "category": "Pretraining at Scale", "tags": ["zero", "distributed", "memory", "training", "inference"], "why": "The ZeRO family remains a core tool for fitting larger models and scaling training efficiently.", "bestfor": "Multi-GPU or multi-node training when memory efficiency is the blocking issue.", "links": [["Getting Started", "https://www.deepspeed.ai/getting-started/"], ["ZeRO Tutorial", "https://www.deepspeed.ai/tutorials/zero/"]]}, {"name": "PyTorch FSDP", "category": "Pretraining at Scale", "tags": ["fsdp", "sharding", "pytorch", "distributed"], "why": "Native PyTorch sharding for parameters, gradients, and optimizer states.", "bestfor": "Teams staying close to upstream PyTorch instead of adopting a larger training framework.", "links": [["Docs", "https://docs.pytorch.org/docs/stable/fsdp.html"], ["Tutorial", "https://docs.pytorch.org/tutorials/intermediate/FSDP_tutorial.html"]]}, {"name": "Hugging Face Accelerate", "category": "Pretraining at Scale", "tags": ["accelerate", "launch", "fsdp", "deepspeed", "distributed"], "why": "A practical unifying layer for distributed launches, especially across FSDP and DeepSpeed setups.", "bestfor": "Simplifying multi-GPU training and notebook-to-cluster workflows.", "links": [["GitHub", "https://github.com/huggingface/accelerate"], ["Docs", "https://huggingface.co/docs/transformers/accelerate"]]}, {"name": "Transformer Engine", "category": "Kernels & Acceleration", "tags": ["fp8", "fp4", "nvidia", "kernels", "training"], "why": "NVIDIA’s optimized transformer primitives and mixed-precision path for fast training and inference.", "bestfor": "High-end NVIDIA stacks targeting FP8/low-precision performance.", "links": [["Docs", "https://docs.nvidia.com/deeplearning/transformer-engine/index.html"], ["GitHub", "https://github.com/NVIDIA/TransformerEngine"]]}, {"name": "Liger Kernel", "category": "Kernels & Acceleration", "tags": ["triton", "throughput", "memory", "training", "kernels"], "why": "Triton kernels for common LLM ops that plug into FSDP, DeepSpeed, and Hugging Face workflows.", "bestfor": "Squeezing extra throughput and memory efficiency out of post-training and pretraining runs.", "links": [["Docs", "https://linkedin.github.io/Liger-Kernel/"], ["GitHub", "https://github.com/linkedin/Liger-Kernel"]]}, {"name": "FlashAttention", "category": "Kernels & Acceleration", "tags": ["attention", "cuda", "memory", "speed", "kernel"], "why": "The canonical fast exact attention implementation used across modern training stacks.", "bestfor": "Custom training stacks, model codebases, and performance-sensitive research.", "links": [["GitHub", "https://github.com/Dao-AILab/flash-attention"]]}, {"name": "Megatron Bridge", "category": "Interop & Conversion", "tags": ["conversion", "huggingface", "megatron", "lora", "sft"], "why": "A bridge between Hugging Face and Megatron-Core checkpoints and recipes.", "bestfor": "Moving between researcher-friendly HF workflows and large-scale Megatron training.", "links": [["Docs", "https://docs.nvidia.com/nemo/megatron-bridge/latest/"], ["Guide", "https://github.com/NVIDIA-NeMo/Megatron-Bridge/blob/main/docs/bridge-guide.md"]]}, {"name": "TRL", "category": "Fine-tuning & Post-training", "tags": ["trl", "sft", "dpo", "ppo", "grpo", "orpo", "kto"], "why": "The reference Hugging Face post-training library for SFT, preference optimization, and RL-style training.", "bestfor": "Researchers who want one toolkit spanning SFT through DPO/ORPO/KTO/PPO/GRPO.", "links": [["Docs", "https://huggingface.co/docs/trl/en/index"], ["GitHub", "https://github.com/huggingface/trl"]]}, {"name": "PEFT", "category": "Fine-tuning & Post-training", "tags": ["peft", "lora", "adalora", "ia3", "adapters"], "why": "The main adapter library for efficient post-training without touching all model weights.", "bestfor": "LoRA, AdaLoRA, IA3, prompt tuning, and reusable adapter workflows.", "links": [["Docs", "https://huggingface.co/docs/peft/index"], ["LoRA Reference", "https://huggingface.co/docs/peft/en/package_reference/lora"]]}, {"name": "Unsloth", "category": "Fine-tuning & Post-training", "tags": ["unsloth", "qlora", "sft", "dpo", "grpo", "gguf"], "why": "Fast local post-training stack aimed at making SFT, preference optimization, RL, and export simpler on limited hardware.", "bestfor": "Single-GPU labs, Colab/Kaggle runs, and rapid QLoRA-style experimentation.", "links": [["Docs", "https://unsloth.ai/docs"], ["Fine-tuning Guide", "https://unsloth.ai/docs/get-started/fine-tuning-llms-guide"]]}, {"name": "torchtune", "category": "Fine-tuning & Post-training", "tags": ["pytorch", "recipes", "lora", "full ft", "distillation"], "why": "A PyTorch-native, hackable post-training library with recipes instead of heavy abstractions.", "bestfor": "Researchers who want to read and edit the training code directly.", "links": [["Docs", "https://meta-pytorch.org/torchtune/stable/index.html"], ["GitHub", "https://github.com/meta-pytorch/torchtune"]]}, {"name": "Axolotl", "category": "Fine-tuning & Post-training", "tags": ["axolotl", "yaml", "qlora", "multimodal", "configs"], "why": "Config-driven fine-tuning framework with strong practical recipes and broad community usage.", "bestfor": "Fast reproducible runs when you want YAML-controlled experiments.", "links": [["Docs", "https://docs.axolotl.ai/"], ["Quickstart", "https://docs.axolotl.ai/docs/getting-started.html"]]}, {"name": "LlamaFactory", "category": "Fine-tuning & Post-training", "tags": ["llamafactory", "ui", "cli", "qlora", "rlhf"], "why": "Unified interface for efficient tuning methods across many open model families.", "bestfor": "No-code or low-code experimentation, labs training many model families, and quick demos.", "links": [["Docs", "https://llamafactory.readthedocs.io/en/latest/"], ["GitHub", "https://github.com/hiyouga/LlamaFactory"]]}, {"name": "OpenRLHF", "category": "Alignment & RLHF", "tags": ["rlhf", "ray", "vllm", "distributed", "alignment"], "why": "High-performance RLHF framework with a Ray + vLLM architecture and production orientation.", "bestfor": "Scaling preference or RL-style post-training beyond single-machine recipes.", "links": [["Docs", "https://openrlhf.readthedocs.io/"], ["GitHub", "https://github.com/OpenRLHF/OpenRLHF"]]}, {"name": "veRL", "category": "Alignment & RLHF", "tags": ["verl", "rl", "rlhf", "throughput", "production"], "why": "A flexible RL training library for LLMs focused on efficient post-training flows.", "bestfor": "Advanced RL/RLVR pipelines and high-throughput post-training research.", "links": [["Docs", "https://verl.readthedocs.io/"], ["GitHub", "https://github.com/verl-project/verl"]]}, {"name": "NeMo-Aligner", "category": "Alignment & RLHF", "tags": ["alignment", "dpo", "rlhf", "steerlm", "nvidia"], "why": "Scalable toolkit for model alignment with DPO, RLHF, and SteerLM-style control.", "bestfor": "Large-scale enterprise or research alignment work on NVIDIA-centric stacks.", "links": [["Docs", "https://docs.nvidia.com/nemo-framework/user-guide/24.12/modelalignment/index.html"], ["GitHub", "https://github.com/NVIDIA/NeMo-Aligner"]]}, {"name": "Unsloth RL Guide", "category": "Alignment & RLHF", "tags": ["dpo", "orpo", "kto", "grpo", "practical", "single gpu"], "why": "Hands-on preference optimization and RL entry points for smaller hardware budgets.", "bestfor": "Practical DPO/ORPO/KTO/GRPO experiments without standing up a full RLHF cluster.", "links": [["Guide", "https://unsloth.ai/docs/get-started/reinforcement-learning-rl-guide/preference-dpo-orpo-and-kto"]]}, {"name": "bitsandbytes", "category": "Quantization & Compression", "tags": ["4bit", "8bit", "nf4", "qlora", "optimizers"], "why": "The standard low-bit building block for accessible QLoRA and k-bit workflows in PyTorch.", "bestfor": "4-bit / 8-bit loading and training when memory is the immediate constraint.", "links": [["GitHub", "https://github.com/bitsandbytes-foundation/bitsandbytes"], ["HF Docs", "https://huggingface.co/docs/transformers/en/quantization/bitsandbytes"]]}, {"name": "GPTQ / GPTQModel", "category": "Quantization & Compression", "tags": ["gptq", "post-training quantization", "int4", "deployment"], "why": "Post-training quantization path for compact inference-ready checkpoints with broad downstream support.", "bestfor": "Compressing models after training for faster or cheaper deployment.", "links": [["HF GPTQ Docs", "https://huggingface.co/docs/transformers/quantization/gptq"], ["GPTQModel GitHub", "https://github.com/ModelCloud/GPTQModel"]]}, {"name": "AWQ", "category": "Quantization & Compression", "tags": ["awq", "w4", "int4", "weight quantization"], "why": "Activation-aware weight quantization for accurate low-bit compression of LLMs.", "bestfor": "INT4-style deployment where weight-only quantization is the main strategy.", "links": [["GitHub", "https://github.com/mit-han-lab/llm-awq"]]}, {"name": "HQQ", "category": "Quantization & Compression", "tags": ["hqq", "no calibration", "fast quantization", "peft"], "why": "Fast quantization that does not require calibration data and plugs into PEFT workflows.", "bestfor": "Fast experimentation with very low-bit quantization when calibration data is inconvenient.", "links": [["GitHub", "https://github.com/dropbox/hqq"], ["HF HQQ Doc", "https://github.com/huggingface/transformers/blob/main/docs/source/en/quantization/hqq.md"]]}, {"name": "llama.cpp / GGUF", "category": "Quantization & Compression", "tags": ["gguf", "cpu", "mac", "local inference", "export"], "why": "The dominant local quantized inference ecosystem for CPU-first and edge-friendly open models.", "bestfor": "MacBooks, CPUs, edge devices, and offline demos with quantized checkpoints.", "links": [["GitHub", "https://github.com/ggml-org/llama.cpp"], ["Quantize README", "https://github.com/ggml-org/llama.cpp/blob/master/tools/quantize/README.md"]]}, {"name": "vLLM Quantization", "category": "Quantization & Compression", "tags": ["vllm", "deployment", "awq", "gptq", "gguf", "fp8"], "why": "Deployment-focused quantization support spanning several formats and kernels in one server stack.", "bestfor": "Serving compressed models at scale instead of only exporting them.", "links": [["Quantization Docs", "https://docs.vllm.ai/en/latest/features/quantization/"], ["vLLM Docs", "https://docs.vllm.ai/en/latest/"]]}, {"name": "MergeKit", "category": "Model Merging", "tags": ["merge", "slerp", "ties", "dare", "cpu"], "why": "Model merging toolkit for combining checkpoints without another expensive training run.", "bestfor": "Cheap capability blending, leaderboard experimentation, and ablation studies.", "links": [["GitHub", "https://github.com/arcee-ai/mergekit"], ["Guide", "https://www.mergekit.com/"]]}, {"name": "lm-evaluation-harness", "category": "Evaluation", "tags": ["eval", "benchmarks", "leaderboard", "academic"], "why": "A canonical unified framework for evaluating language models across many standard tasks.", "bestfor": "Academic-style benchmark sweeps and reproducible offline evaluation.", "links": [["GitHub", "https://github.com/EleutherAI/lm-evaluation-harness"]]}, {"name": "OpenCompass", "category": "Evaluation", "tags": ["eval", "benchmarks", "llm as judge", "wide coverage"], "why": "A broad evaluation platform with many datasets, judge-based evaluation, and reproducibility support.", "bestfor": "Large benchmark suites, leaderboard-style comparisons, and multilingual / broad coverage studies.", "links": [["Docs", "https://opencompass.readthedocs.io/"], ["GitHub", "https://github.com/open-compass/opencompass"]]}, {"name": "MLflow LLM Evaluation", "category": "Evaluation", "tags": ["mlflow", "judge", "monitoring", "agents", "tracking"], "why": "Practical evaluation and monitoring for LLM systems when experiments need lifecycle tracking.", "bestfor": "Teams that want experiment tracking, judge-based metrics, and production monitoring in one place.", "links": [["Docs", "https://mlflow.org/docs/latest/genai/eval-monitor/"], ["Overview", "https://mlflow.org/llm-evaluation"]]}, {"name": "SGLang", "category": "Serving for Research Loops", "tags": ["serving", "throughput", "structured generation", "multimodal"], "why": "High-performance serving and programming framework for LLMs and multimodal models.", "bestfor": "Fast inference backends for evaluation, data generation, and post-training loops.", "links": [["Docs", "https://sgl-project.github.io/"], ["GitHub", "https://github.com/sgl-project/sglang"]]}, {"name": "Nemotron Training Recipes", "category": "Open Training Recipes", "tags": ["recipes", "reproducible", "nvidia", "agentic", "open"], "why": "Transparent training recipes and model-building blueprints from NVIDIA’s open model stack.", "bestfor": "Studying end-to-end training and post-training recipes with stronger reproducibility than scattered blog posts.", "links": [["Docs", "https://docs.nvidia.com/nemotron/nightly/index.html"]]}];
+    const allTags = [...new Set(tools.flatMap(t => t.tags))].sort();
+    const cards = document.getElementById('cards');
+    const search = document.getElementById('search');
+    const category = document.getElementById('category');
+    const chips = document.getElementById('chips');
+    const count = document.getElementById('count');
+
+    let activeTag = 'all';
+
+    function makeChips() {
+      const tags = ['all', ...allTags];
+      chips.innerHTML = tags.map(tag => `
+        <button class="chip ${tag === activeTag ? 'active' : ''}" data-tag="${tag}">
+          ${tag}
+        </button>
+      `).join('');
+      chips.querySelectorAll('.chip').forEach(btn => {
+        btn.addEventListener('click', () => {
+          activeTag = btn.dataset.tag;
+          makeChips();
+          render();
+        });
+      });
+    }
+
+    function matchesTool(tool, q, cat, tag) {
+      const hay = [
+        tool.name,
+        tool.category,
+        tool.why,
+        tool.bestfor,
+        ...(tool.tags || [])
+      ].join(' ').toLowerCase();
+      const okQuery = !q || hay.includes(q);
+      const okCat = cat === 'all' || tool.category === cat;
+      const okTag = tag === 'all' || (tool.tags || []).includes(tag);
+      return okQuery && okCat && okTag;
+    }
+
+    function render() {
+      const q = search.value.trim().toLowerCase();
+      const cat = category.value;
+      const filtered = tools.filter(t => matchesTool(t, q, cat, activeTag));
+
+      count.textContent = `${filtered.length} tool${filtered.length === 1 ? '' : 's'} shown`;
+
+      cards.innerHTML = filtered.map(tool => `
+        <article class="card">
+          <div class="cat">${tool.category}</div>
+          <h3>${tool.name}</h3>
+          <p>${tool.why}</p>
+          <div class="small-label">Best for</div>
+          <p>${tool.bestfor}</p>
+          <div class="taglist">
+            ${(tool.tags || []).map(tag => `<span class="tag">${tag}</span>`).join('')}
+          </div>
+          <div class="links">
+            ${tool.links.map((link, i) => `
+              <a class="link-btn ${i === 0 ? '' : 'secondary'}" href="${link[1]}" target="_blank" rel="noreferrer noopener">
+                ${link[0]}
+              </a>
+            `).join('')}
+          </div>
+        </article>
+      `).join('');
+
+      if (!filtered.length) {
+        cards.innerHTML = `
+          <article class="card">
+            <div class="cat">No match</div>
+            <h3>Nothing matched your current filter</h3>
+            <p>Try a broader search like <em>alignment</em>, <em>quantization</em>, <em>LoRA</em>, or <em>evaluation</em>.</p>
+            <div class="links">
+              <a class="link-btn" href="#" onclick="event.preventDefault(); search.value=''; category.value='all'; activeTag='all'; makeChips(); render();">Reset filters</a>
+            </div>
+          </article>
+        `;
+      }
+    }
+
+    search.addEventListener('input', render);
+    category.addEventListener('change', render);
+
+    makeChips();
+    render();
+  </script>
+</body>
+</html>
